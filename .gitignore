@@ -52,6 +52,9 @@ profile-*
 .vscode
 *code-workspace
 
+# Environmental variables 
+.env
+
 # clinic
 profile*
 *clinic*
