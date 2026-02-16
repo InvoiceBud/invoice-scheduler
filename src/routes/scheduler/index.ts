@@ -4,6 +4,8 @@ import { SchedulerController } from "../../controllers/scheduler-controller";
 import { Responses } from "../../schema/response";
 
 const schedulerRoutes: FastifyPluginAsync = async (fastify, _options) => {
+  const schedulerController = new SchedulerController(fastify);
+
   fastify.get(
     RoutePaths.FETCH_ALL_INVOICES,
     {
@@ -15,7 +17,7 @@ const schedulerRoutes: FastifyPluginAsync = async (fastify, _options) => {
         },
       },
     },
-    SchedulerController.fetchInvoices,
+    schedulerController.fetchUnpaidInvoices,
   );
 };
 
