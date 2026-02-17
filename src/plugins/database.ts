@@ -4,7 +4,7 @@ import postgres from "postgres";
 
 const database: FastifyPluginAsync = async (fastify, opts) => {
   const sql = postgres(process.env.DATABASE_URL!, { max: 20 });
-
+  
   fastify.decorate("sql", sql);
 
   fastify.addHook("onClose", async () => {
