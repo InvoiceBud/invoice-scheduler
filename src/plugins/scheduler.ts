@@ -1,20 +1,13 @@
 import { FastifyPluginAsync } from "fastify";
 import fp from "fastify-plugin";
-import { PgBoss } from "pg-boss";
+import { WORKER_DAILY_INVOICE_OVERDUE } from "../constants";
 
-const pgBoss: FastifyPluginAsync = async (fastify, opts) => {
-  const boss = new PgBoss({
-    connectionString: process.env.DATABASE_URL!,
+const scheduler: FastifyPluginAsync = async (fastify, opts) => {
+  const boss = fastify.boss;
+
+  boss.schedule(WORKER_DAILY_INVOICE_OVERDUE, "*/5 * * * *", null, {
+    tz: "UTC",
   });
-
-  try {
-    boss.on("error", (error) => fastify.log.error(error));
-
-    await boss.start();
-    fastify.log.info(`Scheduler connected successfully`);
-  } catch (error) {
-    fastify.log.error(`Error connecting scheduler to database - ${error}`);
-  }
 };
 
-export default fp(pgBoss);
+export default fp(scheduler);

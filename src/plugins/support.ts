@@ -1,4 +1,5 @@
 import fp from "fastify-plugin";
+import { PgBoss } from "pg-boss";
 import postgres from "postgres";
 
 export interface SupportPluginOptions {}
@@ -13,5 +14,6 @@ declare module "fastify" {
   export interface FastifyInstance {
     someSupport(): string;
     sql: postgres.Sql<{}>;
+    boss: PgBoss;
   }
 }

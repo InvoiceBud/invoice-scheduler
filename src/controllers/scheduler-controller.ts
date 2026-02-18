@@ -13,6 +13,7 @@ export class SchedulerController {
     const invoices = await this.sql`
     select * from invoices 
     where status = 'sent'
+    and "dueDate" < now()
     order by id asc`;
 
     return reply
