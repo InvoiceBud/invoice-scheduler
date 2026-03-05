@@ -7,6 +7,6 @@ const server = Fastify({
 
 server.register(app); 
 
-server.listen({ port: parseInt(process.env.PORT!) || 8000 });
+// server.listen({ port: parseInt(process.env.PORT!) || 8000 });
 
 export default server; 
