@@ -26,13 +26,3 @@ const database: FastifyPluginAsync = async (fastify, opts) => {
 };
 
 export default fp(database);
-
-// Do not put the import at the top of the file
-// export const initBoss = async () => {
-//   // Use a dynamic import inside an async block
-//   const PgBoss = (await import('pg-boss')).default;
-
-//   const boss = new PgBoss(process.env.DATABASE_URL!);
-//   await boss.start();
-//   return boss;
-// };
