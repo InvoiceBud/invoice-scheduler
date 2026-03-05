@@ -1,7 +1,7 @@
 {
   "name": "invoicebud-scheduler",
   "version": "1.0.0",
-  "description": "This project was bootstrapped with Fastify-CLI.",
+  "description": "Invoicebud scheduler for background checks.",
   "main": "app.ts",
   "directories": {
     "test": "test"

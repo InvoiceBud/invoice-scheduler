@@ -2,7 +2,15 @@
   "extends": "fastify-tsconfig",
   "compilerOptions": {
     "outDir": "dist",
-    "sourceMap": true
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "isolatedModules": true,
+    "sourceMap": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

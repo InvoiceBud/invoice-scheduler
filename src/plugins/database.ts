@@ -1,16 +1,17 @@
 import { FastifyPluginAsync } from "fastify";
 import fp from "fastify-plugin";
-import { PgBoss } from "pg-boss";
 import postgres from "postgres";
 
 const database: FastifyPluginAsync = async (fastify, opts) => {
+  const { PgBoss } = await import("pg-boss");
+
   const sql = postgres(process.env.DEV_DATABASE_URL!, { max: 20 });
 
   const boss = new PgBoss({
     connectionString: process.env.DEV_DATABASE_URL!,
   });
 
-  boss.on("error", (error) => fastify.log.error(error));
+  boss.on("error", (error: any) => fastify.log.error(error));
   await boss.start();
 
   fastify.log.info(`Scheduler connected successfully to Db`);
@@ -25,3 +26,13 @@ const database: FastifyPluginAsync = async (fastify, opts) => {
 };
 
 export default fp(database);
+
+// Do not put the import at the top of the file
+// export const initBoss = async () => {
+//   // Use a dynamic import inside an async block
+//   const PgBoss = (await import('pg-boss')).default;
+
+//   const boss = new PgBoss(process.env.DATABASE_URL!);
+//   await boss.start();
+//   return boss;
+// };
