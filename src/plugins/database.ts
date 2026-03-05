@@ -4,10 +4,10 @@ import { PgBoss } from "pg-boss";
 import postgres from "postgres";
 
 const database: FastifyPluginAsync = async (fastify, opts) => {
-  const sql = postgres(process.env.DATABASE_URL!, { max: 20 });
+  const sql = postgres(process.env.DEV_DATABASE_URL!, { max: 20 });
 
   const boss = new PgBoss({
-    connectionString: process.env.DATABASE_URL!,
+    connectionString: process.env.DEV_DATABASE_URL!,
   });
 
   boss.on("error", (error) => fastify.log.error(error));

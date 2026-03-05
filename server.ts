@@ -1,30 +1,16 @@
-import closeWithGrace from "close-with-grace";
-import * as dotenv from "dotenv";
 import Fastify from "fastify";
-import app from "./src/app";
-
-dotenv.config();
+import { app } from "./src/app"; 
 
 const server = Fastify({
   logger: true,
 });
 
-server.register(app);
+server.get("/", async (_request, reply) => { 
+  reply.status(200).send({ hello: "world" }); 
+})
 
-closeWithGrace(
-  { delay: parseInt(process.env.FASTIFY_CLOSE_GRACE_DELAY!) || 500 },
-  async function ({ signal, err, manual }) {
-    if (err) {
-      server.log.error(err);
-    }
+server.register(app); 
 
-    await server.close();
-  } as closeWithGrace.CloseWithGraceAsyncCallback
-);
+server.listen({ port: parseInt(process.env.PORT!) || 8000 });
 
-server.listen({ port: parseInt(process.env.PORT!) || 8000 }, (err: any) => {
-  if (err) {
-    server.log.error(err);
-    process.exit(1);
-  }
-});
+export default server; 
