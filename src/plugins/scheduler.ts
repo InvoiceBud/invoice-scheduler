@@ -1,13 +1,13 @@
-// import { FastifyPluginAsync } from "fastify";
-// import fp from "fastify-plugin";
-// import { WORKER_DAILY_INVOICE_OVERDUE } from "../constants";
+import { FastifyPluginAsync } from "fastify";
+import fp from "fastify-plugin";
+import { WORKER_DAILY_INVOICE_OVERDUE } from "../constants";
 
-// const scheduler: FastifyPluginAsync = async (fastify, opts) => {
-//   const boss = fastify.boss;
+const scheduler: FastifyPluginAsync = async (fastify, opts) => {
+  const boss = fastify.boss;
 
-//   boss.schedule(WORKER_DAILY_INVOICE_OVERDUE, "0 */4 * * *", null, {
-//     tz: "UTC",
-//   });
-// };
+  boss.schedule(WORKER_DAILY_INVOICE_OVERDUE, "0 */4 * * *", null, {
+    tz: "UTC",
+  });
+};
 
-// export default fp(scheduler);
+export default fp(scheduler);
