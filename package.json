@@ -22,13 +22,15 @@
     "@fastify/sensible": "^6.0.0",
     "@sinclair/typebox": "^0.34.48",
     "close-with-grace": "^2.4.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
     "fastify": "^5.0.0",
     "fastify-cli": "^7.4.1",
     "fastify-plugin": "^5.0.0",
     "http-status-codes": "^2.3.0",
     "pg-boss": "^12.11.2",
-    "postgres": "^3.4.8"
+    "postgres": "^3.4.8",
+    "resend": "^6.9.4"
   },
   "devDependencies": {
     "@types/node": "^24.0.8",

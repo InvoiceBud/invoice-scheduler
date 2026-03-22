@@ -9,12 +9,14 @@ export class SchedulerController {
     this.sql = fastify.sql;
   }
 
-  async fetchUnpaidInvoices(request: FastifyRequest, reply: FastifyReply) { // run every 1hr
+  async fetchUnpaidInvoices(request: FastifyRequest, reply: FastifyReply) {
     const invoices = await this.sql`
     select * from invoices 
     where status = 'sent'
     and "dueDate" < now()
     order by id asc`;
+
+    // await EmailService.sendOverdueInvoiceMail(reply);
 
     return reply
       .status(StatusCodes.OK)
