@@ -19,7 +19,7 @@ class SchedulerService {
     `;
   }
 
-  public async invoiceForEmailNotification(data: OverdueEmailData) {
+  public async sendEmailNotification(data: OverdueEmailData) {
     const invoice = await this.fetchInvoice(data.invoice_id);
     const user = await this.fetchUser(data.user_id);
 
