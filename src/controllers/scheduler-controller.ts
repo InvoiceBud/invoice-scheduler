@@ -10,16 +10,22 @@ export class SchedulerController {
   }
 
   async fetchUnpaidInvoices(request: FastifyRequest, reply: FastifyReply) {
-    const invoices = await this.sql`
-    select * from invoices 
-    where status = 'sent'
-    and "dueDate" < now()
-    order by id asc`;
+    // const invoices = await this.sql`
+    // select * from invoices 
+    // where status = 'sent'
+    // and "dueDate" < now()
+    // order by id asc`;
+    const id = "e95eae3a-7522-4094-83c1-71ac78856bd0"
+
+    const invoice = await this.sql`
+       select * from invoices 
+      where id=${id} 
+    `; 
 
     // await EmailService.sendOverdueInvoiceMail(reply);
 
     return reply
       .status(StatusCodes.OK)
-      .send({ message: "All invoices", data: invoices });
+      .send({ message: "All invoices", data: invoice });
   }
 }
