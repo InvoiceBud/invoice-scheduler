@@ -11,32 +11,31 @@ class EmailService {
     const formattedDueDate = format(invoice.dueDate, "PPPP");
     const formattedSentAt = format(invoice.sentAt, "PPPP");
 
-    try {
-      const { data: _data, error } = await this.resend.emails.send({
-        from: "Invoicebud <team@invoicebud.subnownow.com>",
-        to: [user.email],
-        subject: "Invoice Overdue Email Notification",
-        template: {
-          id: "invoice-overdue-template",
-          variables: {
-            NAME: user.name,
-            CLIENT: invoice.client,
-            DUE_DATE: formattedDueDate,
-            INVOICE: invoice.number,
-            TOTAL: invoice.total,
-            STATUS: invoice.status,
-            SENT_AT: formattedSentAt,
-          },
+    console.log("=== Sending email notification ===");
+    const { data, error } = await this.resend.emails.send({
+      from: "Invoicebud <team@invoicebud.subnownow.com>",
+      to: [`${user.email}`],
+      subject: "Invoice Overdue Email Notification",
+      template: {
+        id: "invoice-overdue-template",
+        variables: {
+          NAME: user.name,
+          CLIENT: invoice.client,
+          DUE_DATE: formattedDueDate,
+          INVOICE: invoice.number,
+          TOTAL: `${invoice.total}`,
+          STATUS: invoice.status,
+          SENT_AT: formattedSentAt,
         },
-      });
+      },
+    });
 
-      if (error) {
-        console.log(`Error sending email: ${error.message}`);
-      }
+    if (error) {
+      console.log(`Error sending email: ${error.message}`);
+    }
 
-      return true;
-    } catch (error) {
-      return false;
+    if (data) {
+      console.log(`Email sent successfully to ${data.id}`);
     }
   }
 }

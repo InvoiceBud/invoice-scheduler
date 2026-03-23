@@ -23,24 +23,27 @@ class SchedulerService {
     const invoice = await this.fetchInvoice(data.invoice_id);
     const user = await this.fetchUser(data.user_id);
 
-    return await EmailService.sendOverdueInvoiceMail(invoice, user);
+    await EmailService.sendOverdueInvoiceMail(invoice, user);
   }
 
   private async fetchInvoice(id: string): Promise<Invoice> {
-    const invoice = await this.sql`
+    const invoices = await this.sql`
       select * from invoices 
       where id=${id} 
     `;
 
-    return invoice as unknown as Invoice;
+    const invoice = invoices[0] as Invoice; 
+    return invoice;
   }
 
   private async fetchUser(id: string): Promise<UserData> {
-    const user = await this.sql`
+    const users = await this.sql`
       select * from users 
       where id=${id}
     `;
-    return user as unknown as UserData; 
+    
+    const user = users[0] as UserData; 
+    return user; 
   }
 }
 
