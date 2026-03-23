@@ -15,9 +15,8 @@ class EmailService {
       style: "currency",
       currency: invoice.invoiceCurrency,
     }).format(invoice.total);
-
-    console.log("=== Sending email notification ===");
-    const { data, error } = await this.resend.emails.send({
+    
+    const { data: _data, error: _error } = await this.resend.emails.send({
       from: "Invoicebud <team@invoicebud.subnownow.com>",
       to: [`${user.email}`],
       subject: "Invoice Overdue Email Notification",
@@ -34,14 +33,6 @@ class EmailService {
         },
       },
     });
-
-    if (error) {
-      console.log(`Error sending email: ${error.message}`);
-    }
-
-    if (data) {
-      console.log(`Email sent successfully to ${data.id}`);
-    }
   }
 }
 
