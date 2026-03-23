@@ -24,11 +24,11 @@ closeWithGrace(
   } as closeWithGrace.CloseWithGraceAsyncCallback,
 );
 
-fastify.listen({ port, host: '0.0.0.0' }, (err: any) => {
+fastify.listen({ port: port }, (err: any) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
   }
 
-  fastify.log.info(`Connected to Main Server`); 
+  fastify.log.info(`Connected to Main Server`);
 });
