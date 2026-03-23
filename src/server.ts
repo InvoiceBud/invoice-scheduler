@@ -5,8 +5,6 @@ import app from "./app";
 
 dotenv.config();
 
-const port = parseInt(process.env.PORT!) || 8000;
-
 const fastify = Fastify({
   logger: process.env.NODE_ENV === "production" ? false : true,
 });
@@ -24,11 +22,14 @@ closeWithGrace(
   } as closeWithGrace.CloseWithGraceAsyncCallback,
 );
 
-fastify.listen({ port, host: '0.0.0.0' }, (err: any) => {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
+fastify.listen(
+  { host: "::", port: Number(process.env.PORT) || 3000 },
+  function (err, address) {
+    if (err) {
+      fastify.log.error(err);
+      process.exit(1);
+    }
 
-  fastify.log.info(`Connected to Main Server`); 
-});
+    fastify.log.info(`Connected to Main Server`);
+  },
+);
