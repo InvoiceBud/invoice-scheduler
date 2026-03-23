@@ -11,6 +11,11 @@ class EmailService {
     const formattedDueDate = format(invoice.dueDate, "PPPP");
     const formattedSentAt = format(invoice.sentAt, "PPPP");
 
+    const formattedTotal = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: invoice.invoiceCurrency,
+    }).format(invoice.total);
+
     console.log("=== Sending email notification ===");
     const { data, error } = await this.resend.emails.send({
       from: "Invoicebud <team@invoicebud.subnownow.com>",
@@ -23,7 +28,7 @@ class EmailService {
           CLIENT: invoice.client,
           DUE_DATE: formattedDueDate,
           INVOICE: invoice.number,
-          TOTAL: `${invoice.total}`,
+          TOTAL: formattedTotal,
           STATUS: invoice.status,
           SENT_AT: formattedSentAt,
         },

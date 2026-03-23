@@ -29,7 +29,7 @@ const workers: FastifyPluginAsync = async (fastify, opts) => {
   boss.work(WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION, async ([job]) => {
     const data = job.data as OverdueEmailData;
 
-    return await schedulerService.sendEmailNotification(data); 
+    await schedulerService.sendEmailNotification(data); 
   });
 };
 
