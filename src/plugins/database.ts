@@ -10,10 +10,11 @@ const database: FastifyPluginAsync = async (fastify, opts) => {
       ? process.env.DEV_DATABASE_URL!
       : process.env.DATABASE_URL!;
 
-  const sql = postgres(db, { max: 1 });
+  const sql = postgres(db, { max: 5 });
 
   const boss = new PgBoss({
     connectionString: db,
+    max: 10
   });
 
   boss.on("error", (error: any) => fastify.log.error(error));
