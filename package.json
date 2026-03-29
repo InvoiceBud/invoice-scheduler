@@ -22,6 +22,7 @@
     "@fastify/sensible": "^6.0.0",
     "@sinclair/typebox": "^0.34.48",
     "close-with-grace": "^2.4.0",
+    "cron": "^4.4.0",
     "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
     "fastify": "^5.0.0",

@@ -6,7 +6,9 @@ import app from "./app";
 dotenv.config();
 
 const fastify = Fastify({
-  logger: process.env.NODE_ENV === "production" ? false : true,
+  logger: { 
+    level: process.env.NODE_ENV === "production" ? "info" : "debug", 
+  }
 });
 
 fastify.register(app);
