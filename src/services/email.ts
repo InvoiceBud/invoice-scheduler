@@ -44,7 +44,7 @@ class EmailService {
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: EMAIL_FROM,
       to: [`${user.email}`],
-      subject: "Send invoice to Client", // Change subject title
+      subject: `Invoice ${payload.invoice} from InvoiceBud`,
       template: {
         id: "invoice-payment",
         variables: {
@@ -56,6 +56,7 @@ class EmailService {
           TOTAL: payload.total
         },
       },
+      replyTo: user.email, 
     });
   }
 }
