@@ -19,7 +19,7 @@ class EmailService {
     }).format(invoice.total);
 
     const { data: _data, error: _error } = await this.resend.emails.send({
-      from: "Invoicebud <invoices@invoicebud.subnownow.com>",
+      from: EMAIL_FROM,
       to: [`${user.email}`],
       subject: "Invoice Overdue Email Notification",
       template: {
