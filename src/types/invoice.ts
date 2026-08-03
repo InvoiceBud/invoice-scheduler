@@ -42,4 +42,13 @@ export type OverdueEmailData = {
 export type UserData = {
   name: string;
   email: string;
+  job_role: string;
+};
+
+export type EmailPayload = {
+  client_id: string;
+  user_id: string;
+  due_date: string;
+  invoice: string;
+  total: number;
 };

@@ -1,20 +1,20 @@
 import { FastifyPluginAsync } from "fastify";
 import fp from "fastify-plugin";
 import {
+  WORKER_CREATE_INVOICE,
   WORKER_DAILY_INVOICE_OVERDUE,
   WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION,
 } from "../constants";
 import SchedulerService from "../services/scheduler";
-import { OverdueEmailData } from "../types/invoice";
+import { OverdueEmailData, EmailPayload } from "../types/invoice";
 
 const workers: FastifyPluginAsync = async (fastify, opts) => {
   const boss = fastify.boss;
 
   const schedulerService = new SchedulerService(fastify);
 
-  boss.work(WORKER_DAILY_INVOICE_OVERDUE, async () => {
-    const result =
-      await schedulerService.updateSentInvoiceToOverdueOnExpiryTime();
+  await boss.work(WORKER_DAILY_INVOICE_OVERDUE, async () => {
+    const result = await schedulerService.updateSentInvoiceToOverdueOnExpiryTime();
     fastify.log.info(`Daily invoice overdue updated`);
 
     for (let invoice of result) {
@@ -26,11 +26,17 @@ const workers: FastifyPluginAsync = async (fastify, opts) => {
     }
   });
 
-  boss.work(WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION, async ([job]) => {
+  await boss.work(WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION, async ([job]) => {
     const data = job.data as OverdueEmailData;
 
     await schedulerService.sendEmailNotification(data); 
   });
+
+  await boss.work(WORKER_CREATE_INVOICE, async ([job]) => { 
+    const data = job.data as EmailPayload;
+    
+    await schedulerService.sendEmailCreateInvoice(data); 
+  })
 };
 
 export default fp(workers);
