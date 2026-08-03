@@ -14,8 +14,10 @@ class SchedulerService {
   public async sendEmailNotification(data: OverdueEmailData) {
     const invoice = await this.schedulerRepository.fetchInvoice(data.invoice_id); 
     const user = await this.schedulerRepository.fetchUser(data.user_id); 
+    
+    const client = await this.schedulerRepository.fetchClient(invoice.client); 
 
-    await EmailService.sendOverdueInvoiceMail(invoice, user);
+    await EmailService.sendOverdueInvoiceMail(invoice, user, client);
   }
 
   public async sendEmailCreateInvoice(data: EmailPayload) { 
