@@ -41,7 +41,7 @@ class EmailService {
     const formattedDueDate = format(payload.due_date, "PPPP");
     const invoiceFileName = `${payload.invoice}.pdf`; 
 
-    const { data, error } = await this.resend.emails.send({
+    const { data: _data, error: _error } = await this.resend.emails.send({
       from: EMAIL_FROM,
       to: [`${client.email}`],
       subject: `Invoice ${payload.invoice} from InvoiceBud`,
@@ -58,9 +58,6 @@ class EmailService {
       },
       replyTo: user.email, 
     });
-    
-    console.log("🚀 ~ EmailService ~ sendInvoiceToClient ~ data:", data)
-    console.log("🚀 ~ EmailService ~ sendInvoiceToClient ~ error:", error)
   }
 }
 
