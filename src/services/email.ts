@@ -41,6 +41,11 @@ class EmailService {
     const formattedDueDate = format(payload.due_date, "PPPP");
     const invoiceFileName = `${payload.invoice}.pdf`; 
 
+    const total = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: payload.invoice_currency,
+    }).format(payload.total);
+
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: EMAIL_FROM,
       to: [`${client.email}`],
@@ -51,9 +56,10 @@ class EmailService {
           CLIENT_NAME: client.contact_person,
           DUE_DATE: formattedDueDate,
           FREELANCER_JOB_POSITION: user.job_role,
+          FREELANCER_NAME: user.name,
           INVOICE_FILENAME: invoiceFileName, 
           INVOICE_NUMBER: payload.invoice, 
-          TOTAL: payload.total
+          TOTAL: total
         },
       },
       replyTo: user.email, 

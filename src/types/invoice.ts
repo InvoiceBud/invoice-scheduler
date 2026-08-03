@@ -51,4 +51,5 @@ export type EmailPayload = {
   due_date: string;
   invoice: string;
   total: number;
+  invoice_currency: string; 
 };
