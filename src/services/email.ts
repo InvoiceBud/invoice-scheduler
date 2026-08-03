@@ -63,6 +63,12 @@ class EmailService {
         },
       },
       replyTo: user.email, 
+      attachments: [
+        { 
+          filename: invoiceFileName,
+          path: payload.document
+        }
+      ]
     });
   }
 }

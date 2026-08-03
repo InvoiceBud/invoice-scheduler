@@ -52,4 +52,5 @@ export type EmailPayload = {
   invoice: string;
   total: number;
   invoice_currency: string; 
+  document: string; 
 };
