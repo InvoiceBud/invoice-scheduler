@@ -5,17 +5,18 @@ import {
   WORKER_DAILY_INVOICE_OVERDUE,
   WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION,
 } from "../constants";
+import { SchedulerRepository } from "../repositories/scheduler-repository";
 import SchedulerService from "../services/scheduler";
-import { OverdueEmailData, EmailPayload } from "../types/invoice";
+import { EmailPayload, OverdueEmailData } from "../types/invoice";
 
 const workers: FastifyPluginAsync = async (fastify, opts) => {
   const boss = fastify.boss;
 
-  const schedulerService = new SchedulerService(fastify);
+  const schedulerRepository = new SchedulerRepository(fastify); 
+  const schedulerService = new SchedulerService(schedulerRepository);
 
   await boss.work(WORKER_DAILY_INVOICE_OVERDUE, async () => {
     const result = await schedulerService.updateSentInvoiceToOverdueOnExpiryTime();
-    fastify.log.info(`Daily invoice overdue updated`);
 
     for (let invoice of result) {
       const payload: OverdueEmailData = {
