@@ -13,4 +13,7 @@ export const Events = {
   Invoice: {
     create_invoice: "invoice.create",
   },
+  Auth: {
+    forgot_password_verification: "Auth:password_verification"
+  }
 };
