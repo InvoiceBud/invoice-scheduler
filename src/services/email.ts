@@ -72,16 +72,18 @@ class EmailService {
     });
   }
 
-  public static async sendOTPCodeVerification(payload: UserData, code: string) { 
+  public static async sendResetVerificationLink(payload: UserData, token: string) { 
+    const reset_link = ""; 
+
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: EMAIL_FROM,
-      subject: `${code} is your One-time password verification code`,
+      subject: `Reset your Invoicebud account password`,
       to: payload.email,
       template: { 
-        id: "otp-verification", 
+        id: "reset-link-verification", 
         variables: { 
           NAME: payload.name, 
-          OTP_CODE: code, 
+          RESET_LINK: reset_link, 
         }
       }
     })

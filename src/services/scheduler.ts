@@ -27,10 +27,10 @@ class SchedulerService {
     await EmailService.sendInvoiceToClient(data, client, user); 
   }
 
-  public async sendEmailOTPVerificationCode(data: ForgotPasswordVerification) { 
+  public async sendEmailResetVerificationLink(data: ForgotPasswordVerification) { 
     const user = await this.schedulerRepository.fetchUser(data.user_id); 
 
-    await EmailService.sendOTPCodeVerification(user, data.code); 
+    await EmailService.sendResetVerificationLink(user, data.code); 
   }
 }
 

@@ -43,7 +43,7 @@ const workers: FastifyPluginAsync = async (fastify, opts) => {
   await boss.work(WORKER_FORGOT_PASSWORD_VERIFICATION, async ([job]) => { 
     const data = job.data as ForgotPasswordVerification; 
 
-    await schedulerService.sendEmailOTPVerificationCode(data); 
+    await schedulerService.sendEmailResetVerificationLink(data); 
   })
 };
 
