@@ -71,6 +71,21 @@ class EmailService {
       ]
     });
   }
+
+  public static async sendOTPCodeVerification(payload: UserData, code: string) { 
+    const { data: _data, error: _error } = await this.resend.emails.send({
+      from: EMAIL_FROM,
+      subject: `${code} is your One-time password verification code`,
+      to: payload.email,
+      template: { 
+        id: "otp-verification", 
+        variables: { 
+          NAME: payload.name, 
+          OTP_CODE: code, 
+        }
+      }
+    })
+  }
 }
 
 export default EmailService;

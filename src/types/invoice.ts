@@ -51,6 +51,11 @@ export type EmailPayload = {
   due_date: string;
   invoice: string;
   total: number;
-  invoice_currency: string; 
-  document: string; 
+  invoice_currency: string;
+  document: string;
+};
+
+export type ForgotPasswordVerification = {
+  user_id: string;
+  code: string;
 };

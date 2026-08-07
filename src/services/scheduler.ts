@@ -1,5 +1,5 @@
 import { SchedulerRepository } from "../repositories/scheduler-repository";
-import { EmailPayload, OverdueEmailData } from "../types/invoice";
+import { EmailPayload, ForgotPasswordVerification, OverdueEmailData } from "../types/invoice";
 import EmailService from "./email";
 
 class SchedulerService {
@@ -25,6 +25,12 @@ class SchedulerService {
     const user = await this.schedulerRepository.fetchUser(data.user_id); 
 
     await EmailService.sendInvoiceToClient(data, client, user); 
+  }
+
+  public async sendEmailOTPVerificationCode(data: ForgotPasswordVerification) { 
+    const user = await this.schedulerRepository.fetchUser(data.user_id); 
+
+    await EmailService.sendOTPCodeVerification(user, data.code); 
   }
 }
 

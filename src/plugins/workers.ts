@@ -3,11 +3,12 @@ import fp from "fastify-plugin";
 import {
   WORKER_CREATE_INVOICE,
   WORKER_DAILY_INVOICE_OVERDUE,
+  WORKER_FORGOT_PASSWORD_VERIFICATION,
   WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION,
 } from "../constants";
 import { SchedulerRepository } from "../repositories/scheduler-repository";
 import SchedulerService from "../services/scheduler";
-import { EmailPayload, OverdueEmailData } from "../types/invoice";
+import { EmailPayload, ForgotPasswordVerification, OverdueEmailData } from "../types/invoice";
 
 const workers: FastifyPluginAsync = async (fastify, opts) => {
   const boss = fastify.boss;
@@ -37,6 +38,12 @@ const workers: FastifyPluginAsync = async (fastify, opts) => {
     const data = job.data as EmailPayload;
     
     await schedulerService.sendEmailCreateInvoice(data); 
+  });
+
+  await boss.work(WORKER_FORGOT_PASSWORD_VERIFICATION, async ([job]) => { 
+    const data = job.data as ForgotPasswordVerification; 
+
+    await schedulerService.sendEmailOTPVerificationCode(data); 
   })
 };
 
