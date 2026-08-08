@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { Resend } from "resend";
-import { EMAIL_FROM } from "../constants";
+import { INVOICE_EMAIL_FROM, VERIFICATION_EMAIL_FROM } from "../constants";
 import { ClientData } from "../types/client";
 import { EmailPayload, Invoice, UserData } from "../types/invoice";
 
@@ -19,7 +19,7 @@ class EmailService {
     }).format(invoice.total);
 
     const { data: _data, error: _error } = await this.resend.emails.send({
-      from: EMAIL_FROM,
+      from: INVOICE_EMAIL_FROM,
       to: [`${client.email}`],
       subject: `Friendly reminder: Invoice ${invoice.number} is overdue`,
       template: {
@@ -47,7 +47,7 @@ class EmailService {
     }).format(payload.total);
 
     const { data: _data, error: _error } = await this.resend.emails.send({
-      from: EMAIL_FROM,
+      from: INVOICE_EMAIL_FROM,
       to: [`${client.email}`],
       subject: `Invoice ${payload.invoice} from InvoiceBud`,
       template: {
@@ -76,7 +76,7 @@ class EmailService {
     const reset_link = `https://invoicebud.app/reset_password?token=${token}`; 
 
     const { data: _data, error: _error } = await this.resend.emails.send({
-      from: EMAIL_FROM,
+      from: VERIFICATION_EMAIL_FROM,
       subject: `Reset your Invoicebud account password`,
       to: payload.email,
       template: { 
