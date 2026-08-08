@@ -30,7 +30,7 @@ class SchedulerService {
   public async sendEmailResetVerificationLink(data: ForgotPasswordVerification) { 
     const user = await this.schedulerRepository.fetchUser(data.user_id); 
 
-    await EmailService.sendResetVerificationLink(user, data.code); 
+    await EmailService.sendResetVerificationLink(user, data.token); 
   }
 }
 

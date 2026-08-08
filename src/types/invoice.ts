@@ -57,5 +57,5 @@ export type EmailPayload = {
 
 export type ForgotPasswordVerification = {
   user_id: string;
-  code: string;
+  token: string;
 };

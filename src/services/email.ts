@@ -73,7 +73,7 @@ class EmailService {
   }
 
   public static async sendResetVerificationLink(payload: UserData, token: string) { 
-    const reset_link = ""; 
+    const reset_link = `https://invoicebud.app/reset_password?token=${token}`; 
 
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: EMAIL_FROM,
