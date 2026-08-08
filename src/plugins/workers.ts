@@ -5,19 +5,25 @@ import {
   WORKER_DAILY_INVOICE_OVERDUE,
   WORKER_FORGOT_PASSWORD_VERIFICATION,
   WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION,
+  WORKER_RESET_PASSWORD_SUCCESSFUL,
 } from "../constants";
 import { SchedulerRepository } from "../repositories/scheduler-repository";
 import SchedulerService from "../services/scheduler";
-import { EmailPayload, ForgotPasswordVerification, OverdueEmailData } from "../types/invoice";
+import {
+  EmailPayload,
+  ForgotPasswordVerification,
+  OverdueEmailData,
+} from "../types/invoice";
 
 const workers: FastifyPluginAsync = async (fastify, opts) => {
   const boss = fastify.boss;
 
-  const schedulerRepository = new SchedulerRepository(fastify); 
+  const schedulerRepository = new SchedulerRepository(fastify);
   const schedulerService = new SchedulerService(schedulerRepository);
 
   await boss.work(WORKER_DAILY_INVOICE_OVERDUE, async () => {
-    const result = await schedulerService.updateSentInvoiceToOverdueOnExpiryTime();
+    const result =
+      await schedulerService.updateSentInvoiceToOverdueOnExpiryTime();
 
     for (let invoice of result) {
       const payload: OverdueEmailData = {
@@ -31,19 +37,25 @@ const workers: FastifyPluginAsync = async (fastify, opts) => {
   await boss.work(WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION, async ([job]) => {
     const data = job.data as OverdueEmailData;
 
-    await schedulerService.sendEmailNotification(data); 
+    await schedulerService.sendEmailNotification(data);
   });
 
-  await boss.work(WORKER_CREATE_INVOICE, async ([job]) => { 
+  await boss.work(WORKER_CREATE_INVOICE, async ([job]) => {
     const data = job.data as EmailPayload;
-    
-    await schedulerService.sendEmailCreateInvoice(data); 
+
+    await schedulerService.sendEmailCreateInvoice(data);
   });
 
-  await boss.work(WORKER_FORGOT_PASSWORD_VERIFICATION, async ([job]) => { 
-    const data = job.data as ForgotPasswordVerification; 
+  await boss.work(WORKER_FORGOT_PASSWORD_VERIFICATION, async ([job]) => {
+    const data = job.data as ForgotPasswordVerification;
 
-    await schedulerService.sendEmailResetVerificationLink(data); 
+    await schedulerService.sendEmailResetVerificationLink(data);
+  });
+
+  await boss.work(WORKER_RESET_PASSWORD_SUCCESSFUL, async ([job]) => {
+    const data = job.data as { user_id: string }; 
+
+    await schedulerService.sendEmailResetPasswordSuccess(data); 
   })
 };
 

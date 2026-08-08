@@ -31,7 +31,7 @@ export class SchedulerRepository {
     return invoice;
   }
 
-  public async fetchUser(id: string): Promise<UserData> {
+  public async findByUserId(id: string): Promise<UserData> {
     const users = await this.sql`
       SELECT * FROM users 
       WHERE id=${id}

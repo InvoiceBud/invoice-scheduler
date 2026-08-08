@@ -5,6 +5,7 @@ import {
   WORKER_DAILY_INVOICE_OVERDUE,
   WORKER_FORGOT_PASSWORD_VERIFICATION,
   WORKER_INVOICE_OVERDUE_EMAIL_NOTIFICATION,
+  WORKER_RESET_PASSWORD_SUCCESSFUL,
 } from "../constants";
 
 const queue: FastifyPluginAsync = async (fastify, opts) => {
@@ -17,6 +18,8 @@ const queue: FastifyPluginAsync = async (fastify, opts) => {
   await boss.createQueue(WORKER_CREATE_INVOICE); 
 
   await boss.createQueue(WORKER_FORGOT_PASSWORD_VERIFICATION);
+
+  await boss.createQueue(WORKER_RESET_PASSWORD_SUCCESSFUL);
 };
 
 export default fp(queue);

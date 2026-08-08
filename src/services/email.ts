@@ -33,13 +33,13 @@ class EmailService {
           SENT_AT: sentAt,
         },
       },
-      replyTo: user.email
+      replyTo: user.email,
     });
   }
 
   public static async sendInvoiceToClient(payload: EmailPayload, client: ClientData, user: UserData) {
     const formattedDueDate = format(payload.due_date, "PPPP");
-    const invoiceFileName = `${payload.invoice}.pdf`; 
+    const invoiceFileName = `${payload.invoice}.pdf`;
 
     const total = new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -57,33 +57,47 @@ class EmailService {
           DUE_DATE: formattedDueDate,
           FREELANCER_JOB_POSITION: user.job_role,
           FREELANCER_NAME: user.name,
-          INVOICE_FILENAME: invoiceFileName, 
-          INVOICE_NUMBER: payload.invoice, 
-          TOTAL: total
+          INVOICE_FILENAME: invoiceFileName,
+          INVOICE_NUMBER: payload.invoice,
+          TOTAL: total,
         },
       },
-      replyTo: user.email, 
+      replyTo: user.email,
       attachments: [
-        { 
+        {
           filename: invoiceFileName,
-          path: payload.document
-        }
-      ]
+          path: payload.document,
+        },
+      ],
     });
   }
 
-  public static async sendResetVerificationLink(payload: UserData, token: string) { 
-    const reset_link = `https://invoicebud.app/reset-password?token=${token}`; 
+  public static async sendResetVerificationLink(payload: UserData, token: string) {
+    const reset_link = `https://invoicebud.app/reset-password?token=${token}`;
 
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: VERIFICATION_EMAIL_FROM,
       subject: `Reset your Invoicebud account password`,
       to: payload.email,
+      template: {
+        id: "reset-link-verification",
+        variables: {
+          NAME: payload.name,
+          RESET_LINK: reset_link,
+        },
+      },
+    });
+  }
+
+  public static async sendResetValidationSuccessful(payload: UserData) {
+    const { data: _data, error: _error } = await this.resend.emails.send({ 
+      from: VERIFICATION_EMAIL_FROM, 
+      subject: "Password changed successfully - Invoicebud", 
+      to: payload.email, 
       template: { 
-        id: "reset-link-verification", 
+        id: "reset-password-success", 
         variables: { 
-          NAME: payload.name, 
-          RESET_LINK: reset_link, 
+          NAME: payload.name
         }
       }
     })

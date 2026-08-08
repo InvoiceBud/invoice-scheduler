@@ -13,7 +13,7 @@ class SchedulerService {
 
   public async sendEmailNotification(data: OverdueEmailData) {
     const invoice = await this.schedulerRepository.fetchInvoice(data.invoice_id); 
-    const user = await this.schedulerRepository.fetchUser(data.user_id); 
+    const user = await this.schedulerRepository.findByUserId(data.user_id); 
     
     const client = await this.schedulerRepository.fetchClient(invoice.client); 
 
@@ -22,15 +22,21 @@ class SchedulerService {
 
   public async sendEmailCreateInvoice(data: EmailPayload) { 
     const client = await this.schedulerRepository.fetchClient(data.client_id); 
-    const user = await this.schedulerRepository.fetchUser(data.user_id); 
+    const user = await this.schedulerRepository.findByUserId(data.user_id); 
 
     await EmailService.sendInvoiceToClient(data, client, user); 
   }
 
   public async sendEmailResetVerificationLink(data: ForgotPasswordVerification) { 
-    const user = await this.schedulerRepository.fetchUser(data.user_id); 
+    const user = await this.schedulerRepository.findByUserId(data.user_id); 
 
     await EmailService.sendResetVerificationLink(user, data.token); 
+  }
+
+  public async sendEmailResetPasswordSuccess(data: { user_id: string }) { 
+    const user = await this.schedulerRepository.findByUserId(data.user_id); 
+
+    await EmailService.sendResetValidationSuccessful(user);
   }
 }
 
