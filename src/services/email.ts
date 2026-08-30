@@ -49,7 +49,7 @@ class EmailService {
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: INVOICE_EMAIL_FROM,
       to: [`${client.email}`],
-      subject: `Invoice ${payload.invoice} from InvoiceBud`,
+      subject: `Invoice ${payload.invoice} from BillGig`,
       template: {
         id: "invoice-payment",
         variables: {
@@ -73,11 +73,11 @@ class EmailService {
   }
 
   public static async sendResetVerificationLink(payload: UserData, token: string) {
-    const reset_link = `https://invoicebud.app/reset-password?token=${token}`;
+    const reset_link = `https://billgig.app/reset-password?token=${token}`; 
 
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: VERIFICATION_EMAIL_FROM,
-      subject: `Reset your Invoicebud account password`,
+      subject: `Reset your BillGig account password`,
       to: payload.email,
       template: {
         id: "reset-link-verification",
@@ -92,7 +92,7 @@ class EmailService {
   public static async sendResetValidationSuccessful(payload: UserData) {
     const { data: _data, error: _error } = await this.resend.emails.send({ 
       from: VERIFICATION_EMAIL_FROM, 
-      subject: "Password changed successfully - Invoicebud", 
+      subject: "Password changed successfully - BillGig", 
       to: payload.email, 
       template: { 
         id: "reset-password-success", 

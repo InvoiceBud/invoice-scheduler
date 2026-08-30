@@ -8,8 +8,8 @@ export const WORKER_CREATE_INVOICE = "create-invoice";
 export const WORKER_FORGOT_PASSWORD_VERIFICATION = "forgot-password-verification";
 export const WORKER_RESET_PASSWORD_SUCCESSFUL = "reset-password-successful";
 
-export const INVOICE_EMAIL_FROM = "Invoicebud <invoices@invoicebud.app>";
-export const VERIFICATION_EMAIL_FROM = "Invoicebud <team@invoicebud.app>";
+export const INVOICE_EMAIL_FROM = "BillGig <invoices@notifications.billgig.app>";
+export const VERIFICATION_EMAIL_FROM = "BillGig <team@notifications.billgig.app>";
 
 export const Events = {
   Invoice: {
