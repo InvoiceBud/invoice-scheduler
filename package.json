@@ -1,7 +1,7 @@
 {
-  "name": "invoicebud-scheduler",
+  "name": "billgig-scheduler",
   "version": "1.0.0",
-  "description": "Invoicebud scheduler for background checks.",
+  "description": "BillGig scheduler for background checks.",
   "main": "app.ts",
   "directories": {
     "test": "test"
