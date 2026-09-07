@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { INVOICE_EMAIL_FROM, VERIFICATION_EMAIL_FROM } from "../constants";
 import { ClientData } from "../types/client";
 import { EmailPayload, Invoice, UserData } from "../types/invoice";
+import { getInvoiceSignedUrl } from "../helpers/invoice";
 
 class EmailService {
   private constructor() {}
@@ -39,12 +40,11 @@ class EmailService {
 
   public static async sendInvoiceToClient(payload: EmailPayload, client: ClientData, user: UserData) {
     const formattedDueDate = format(payload.due_date, "PPPP");
+    const retrievedDocument = await getInvoiceSignedUrl(payload.document);
+
     const invoiceFileName = `${payload.invoice}.pdf`;
 
-    const total = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: payload.invoice_currency,
-    }).format(payload.total);
+    const total = new Intl.NumberFormat("en-US", { style: "currency", currency: payload.invoice_currency }).format(payload.total);
 
     const { data: _data, error: _error } = await this.resend.emails.send({
       from: INVOICE_EMAIL_FROM,
@@ -66,7 +66,7 @@ class EmailService {
       attachments: [
         {
           filename: invoiceFileName,
-          path: payload.document,
+          path: retrievedDocument,
         },
       ],
     });
