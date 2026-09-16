@@ -32,6 +32,8 @@ class EmailService {
           TOTAL: formattedTotal,
           STATUS: invoice.status,
           SENT_AT: sentAt,
+          FREELANCER_JOB_POSITION: user.job_role,
+          FREELANCER_NAME: user.name,
         },
       },
       replyTo: user.email,
